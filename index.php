@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: MF Widget Logic (Select)
-Plugin URI: 
+Plugin URI: https://github.com/frostkom/mf_widget_logic_select
 Description: 
-Version: 3.0.4
+Version: 3.0.5
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: http://frostkom.se
@@ -11,6 +11,7 @@ Text Domain: lang_wls
 Domain Path: /lang
 
 Depends: MF Base
+GitHub Plugin URI: frostkom/mf_widget_logic_select
 */
 
 include_once("include/functions.php");
