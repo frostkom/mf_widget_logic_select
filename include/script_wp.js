@@ -98,12 +98,13 @@ jQuery(function($)
 		update_widget_heading($(this));
 	});
 
-	$("#widgets-right .widgets-holder-wrap.closed .widgets-sortables").on('click', function()
+	/* This will just override the more specific click below */
+	/*$("#widgets-right .widgets-holder-wrap.closed .widgets-sortables").on('click', function()
 	{
 		var holder_id = $(this).attr('id');
 
 		location.hash = holder_id + "&";
-	});
+	});*/
 
 	$("#widgets-right .widgets-holder-wrap .widget:not(.open)").on('click', function()
 	{
