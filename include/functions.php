@@ -1,14 +1,5 @@
 <?php
 
-function menu_wls()
-{
-	$plugin_include_url = plugin_dir_url(__FILE__);
-	$plugin_version = get_plugin_version(__FILE__);
-
-	mf_enqueue_style('style_wls', $plugin_include_url."style_wp.css", $plugin_version);
-	mf_enqueue_script('script_wls', $plugin_include_url."script_wp.js", $plugin_version);
-}
-
 function meta_page_widgets()
 {
 	global $wpdb, $wp_registered_widgets;
