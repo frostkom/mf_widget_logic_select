@@ -85,7 +85,7 @@ function meta_page_widgets()
 
 								else
 								{
-									error_log(__("Widget Logic Missing", 'lang_wls').": ".$page_widget_logic);
+									do_log(__("Widget Logic Missing", 'lang_wls').": ".$page_widget_logic);
 								}
 							}
 
@@ -106,7 +106,7 @@ function meta_page_widgets()
 
 				else
 				{
-					error_log("Something went wrong with sidebar (".var_export($sidebar, true).", ".var_export($arr_sidebars, true).")");
+					do_log("Something went wrong with sidebar (".var_export($sidebar, true).", ".var_export($arr_sidebars, true).")");
 				}
 
 				if(count($arr_output[$sidebar_key]) == 0)
