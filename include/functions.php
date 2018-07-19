@@ -122,15 +122,23 @@ function meta_page_widgets()
 
 				foreach($arr_output as $sidebar_key => $sidebar)
 				{
-					$out .= "<li>".$arr_sidebar_names[$sidebar_key]."</li>
-					<ul>";
+					if(isset($arr_sidebar_names[$sidebar_key]))
+					{
+						$out .= "<li>".$arr_sidebar_names[$sidebar_key]."</li>
+						<ul>";
 
-						foreach($sidebar as $widget_key => $widget)
-						{
-							$out .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget."</a></li>";
-						}
+							foreach($sidebar as $widget_key => $widget)
+							{
+								$out .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget."</a></li>";
+							}
 
-					$out .= "</ul>";
+						$out .= "</ul>";
+					}
+
+					else
+					{
+						do_log("The Widget Area does not exist (".var_export($arr_output, true).", ".var_export($arr_sidebar_names, true).")");
+					}
 				}
 
 			$out .= "</ul>";
