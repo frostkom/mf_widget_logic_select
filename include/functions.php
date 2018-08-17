@@ -67,7 +67,7 @@ function meta_page_widgets()
 									}
 								}
 
-								else if(in_array($page_widget_logic, array('is_home()')))
+								else if($page_widget_logic == 'is_home()')
 								{
 									if($post_id == get_option('page_on_front'))
 									{
