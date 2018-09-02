@@ -3,7 +3,7 @@
 Plugin Name: MF Widget Logic (Select)
 Plugin URI: https://github.com/frostkom/mf_widget_logic_select
 Description: 
-Version: 3.1.6
+Version: 3.2.0
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -26,7 +26,7 @@ if(is_admin())
 	add_filter('widget_update_callback', 'widget_update_wls', 10, 3);
 	add_action('sidebar_admin_setup', 'sidebar_admin_wls');
 
-	add_action('rwmb_meta_boxes', 'meta_boxes_wls');
+	add_action('rwmb_meta_boxes', array($obj_wls, 'rwmb_meta_boxes'));
 
 	add_action('clone_page', 'clone_page_wls', 10, 2);
 
