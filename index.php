@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: MF Widget Logic (Select)
+Plugin Name: MF Widget Logic
 Plugin URI: https://github.com/frostkom/mf_widget_logic_select
 Description: 
-Version: 3.2.0
+Version: 3.2.1
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
