@@ -101,7 +101,7 @@ class mf_widget_logic_select
 
 									else
 									{
-										do_log(__("Widget Logic Missing", 'lang_wls').": ".$page_widget_logic);
+										do_log("Widget Logic Missing: ".$page_widget_logic);
 									}
 								}
 
