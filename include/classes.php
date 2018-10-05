@@ -83,25 +83,28 @@ class mf_widget_logic_select
 										}
 									}
 
-									else if($page_widget_logic == 'is_home()')
-									{
-										if($post_id == get_option('page_on_front'))
-										{
-											$show_on_page = true;
-										}
-									}
-
-									else if(in_array($page_widget_logic, array('is_category()')))
-									{
-										if(is_category())
-										{
-											$show_on_page = true;
-										}
-									}
-
 									else
 									{
-										do_log("Widget Logic Missing: ".$page_widget_logic);
+										switch($page_widget_logic)
+										{
+											case 'is_home()':
+												if($post_id == get_option('page_on_front'))
+												{
+													$show_on_page = true;
+												}
+											break;
+
+											case 'is_category()':
+												if(is_category())
+												{
+													$show_on_page = true;
+												}
+											break;
+
+											default:
+												do_log("Widget Logic Missing: ".$page_widget_logic);
+											break;
+										}
 									}
 								}
 
