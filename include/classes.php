@@ -156,7 +156,7 @@ class mf_widget_logic_select
 
 						else
 						{
-							do_log("The Widget Area does not exist (".var_export($arr_output, true).", ".var_export($arr_sidebar_names, true).")");
+							do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")"); //var_export($arr_output, true)
 						}
 					}
 
