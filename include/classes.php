@@ -291,7 +291,7 @@ class mf_widget_logic_select
 											break;
 
 											default:
-												do_log("Widget Logic Missing: ".$page_widget_logic);
+												do_log("Widget Logic Missing: '".$page_widget_logic."'");
 											break;
 										}
 									}
