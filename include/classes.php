@@ -101,7 +101,7 @@ class mf_widget_logic_select
 
 	function widget_logic_extra_control()
 	{
-		global $wp_registered_widget_controls, $wpdb;
+		global $wp_registered_widget_controls;
 
 		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
@@ -207,7 +207,7 @@ class mf_widget_logic_select
 
 	function meta_page_widgets()
 	{
-		global $wpdb, $wp_registered_widgets;
+		global $wp_registered_widgets;
 
 		$out = "";
 
@@ -304,11 +304,6 @@ class mf_widget_logic_select
 									$arr_output[$sidebar_key][$widget] = $widget_name;
 								}
 							}
-
-							/*else
-							{
-								$out .= "<li>".__("All Pages", 'lang_wls').": ".$sidebar_key.": ".$widget_type.", ".$widget_id."</li>";
-							}*/
 						}
 					}
 

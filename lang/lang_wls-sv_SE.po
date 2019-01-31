@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-22 10:58+0100\n"
+"POT-Creation-Date: 2019-01-31 09:20+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,27 +15,11 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../index.php:18
-msgid "when plugin starts (default)"
-msgstr "när plugin startas (standard)"
-
-#: ../index.php:19
-msgid "after theme loads"
-msgstr "efter temat laddas"
-
-#: ../index.php:20
-msgid "when all PHP loaded"
-msgstr "när all PHP laddats"
-
-#: ../index.php:21
-msgid "during page header"
-msgstr "medan sidhuvud"
-
-#: ../include/functions.php:148
-msgid "Widgets"
-msgstr "Widgets"
-
-#: ../include/functions.php:284
+#: ../include/classes.php:145
 msgid "Choose page to display this widget on"
 msgstr "Välj sida att visa denna widget på"
+
+#: ../include/classes.php:363
+msgid "Widgets"
+msgstr "Widgetar"
 
