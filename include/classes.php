@@ -253,6 +253,8 @@ class mf_widget_logic_select
 
 								foreach($arr_page_widget_logic as $page_widget_logic)
 								{
+									$page_widget_logic = trim($page_widget_logic);
+
 									$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
 									$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
 
