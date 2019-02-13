@@ -2,14 +2,14 @@ jQuery(function($)
 {
 	function update_widget_area_heading(dom_obj)
 	{
-		var dom_heading = dom_obj.parents('.widgets-sortables').find('.sidebar-name h2'),
-			dom_info = dom_heading.children('em');
+		var dom_heading = dom_obj.parents(".widgets-sortables").find(".sidebar-name h2"),
+			dom_info = dom_heading.children("em");
 
 		if(dom_info.length > 0)
 		{
-			var widget_amount = parseInt(dom_info.children('span').text()) + 1;
+			var widget_amount = parseInt(dom_info.children("span").text()) + 1;
 
-			dom_info.children('span').text(widget_amount);
+			dom_info.children("span").text(widget_amount);
 		}
 
 		else
@@ -25,7 +25,7 @@ jQuery(function($)
 		var i = 0,
 			out = '';
 
-		dom_obj.find('option:selected').each(function()
+		dom_obj.find("option:selected").each(function()
 		{
 			if(i < 3)
 			{
@@ -42,8 +42,8 @@ jQuery(function($)
 
 		if(out != '')
 		{
-			var dom_heading = dom_obj.parents('.widget').find('.widget-title h3'),
-				dom_info = dom_heading.children('em');
+			var dom_heading = dom_obj.parents(".widget").find(".widget-title h3"),
+				dom_info = dom_heading.children("em");
 
 			if(dom_info.length > 0)
 			{
@@ -128,7 +128,7 @@ jQuery(function($)
 			}
 		}
 
-		$(this).parent('.form_select').siblings('.form_textfield').children('input').val(select_string).removeClass('hide');
+		$(this).parent(".form_select").siblings(".form_textfield").children("input").val(select_string).removeClass('hide');
 
 		update_widget_heading($(this));
 	});
