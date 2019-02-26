@@ -20,41 +20,52 @@ class mf_widget_logic_select
 				$arr_widget_area = get_option('sidebars_widgets');
 				$arr_widget_logic = get_option('widget_logic');
 
+				//do_log("Widgets: ".$search_for." --- ".var_export($arr_search_widget, true)." ---------- ".var_export($arr_widget_area, true)." ---------- ".var_export($arr_widget_logic, true));
+
 				foreach($arr_search_widget as $key_search => $arr_search)
 				{
 					foreach($arr_widget_area as $arr_area)
 					{
-						if(is_array($arr_area))
+						if(is_array($arr_area) && count($arr_area) > 0)
 						{
 							foreach($arr_area as $widget)
 							{
 								if($search_for."-".$key_search == $widget)
 								{
-									//$out .= "Widget: ".$widget."<br>"; // (".var_export($arr_search, true).")
-
-									if(isset($arr_widget_logic[$widget]) && $arr_widget_logic[$widget] != '')
+									if(isset($arr_widget_logic[$widget]))
 									{
-										//$out .= "Widget Logic: ".var_export($arr_widget_logic[$widget], true)."<br>";
-
-										$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget]);
-
-										foreach($arr_page_widget_logic as $page_widget_logic)
+										if($arr_widget_logic[$widget] == '')
 										{
-											$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
-											$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
+											$out = get_option('page_on_front');
+										}
 
-											if($page_id > 0)
+										else
+										{
+											$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget]);
+
+											foreach($arr_page_widget_logic as $page_widget_logic)
 											{
-												$out = $page_id;
+												$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
+												$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
 
-												break;
-											}
+												if($page_id > 0)
+												{
+													$out = $page_id;
 
-											else if($page_widget_logic == 'is_home()')
-											{
-												$out = get_option('page_on_front');
+													break;
+												}
 
-												break;
+												else if($page_widget_logic == 'is_home()')
+												{
+													$out = get_option('page_on_front');
+
+													break;
+												}
+
+												else
+												{
+													do_log("Something else was set: ".$page_widget_logic);
+												}
 											}
 										}
 									}
