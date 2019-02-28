@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-07 13:21+0100\n"
+"POT-Creation-Date: 2019-02-28 08:50+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,9 +15,11 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-msgid "All Pages"
-msgstr "Alle Sider"
+#: ../include/classes.php:156
+msgid "Choose page to display this widget on"
+msgstr "Velg side for å vise denne widget på"
 
+#: ../include/classes.php:371
 msgid "Widgets"
 msgstr "Widgeter"
 

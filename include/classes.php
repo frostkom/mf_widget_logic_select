@@ -55,16 +55,64 @@ class mf_widget_logic_select
 													break;
 												}
 
-												else if($page_widget_logic == 'is_home()')
+												else if($singular_type != '')
 												{
-													$out = get_option('page_on_front');
+													$arr_data = array();
+													get_post_children(array('add_choose_here' => false, 'post_type' => $singular_type, 'limit' => 1), $arr_data);
 
-													break;
+													if(count($arr_data) > 0)
+													{
+														foreach($arr_data as $key => $value)
+														{
+															$out = $key;
+
+															break;
+														}
+
+														break;
+													}
 												}
+
+												/*else if(substr($page_widget_logic, 0, 12) == "is_singular(")
+												{
+													$post_type = get_match("/\"(.*?)\\/", $page_widget_logic, false);
+
+													$arr_data = array();
+													get_post_children(array('add_choose_here' => false, 'post_type' => $post_type, 'limit' => 1), $arr_data);
+
+													if(count($arr_data) > 0)
+													{
+														foreach($arr_data as $key => $value)
+														{
+															$out = $key;
+
+															break;
+														}
+
+														break;
+													}
+												}*/
 
 												else
 												{
-													do_log("Something else was set: ".$page_widget_logic);
+													switch($page_widget_logic)
+													{
+														case 'is_home()':
+															$out = get_option('page_on_front');
+
+															break;
+														break;
+
+														/*case 'is_category()':
+															$out = "???";
+
+															break;
+														break;*/
+
+														default:
+															do_log("Widget Logic Missing 2: '".$page_widget_logic."'");
+														break;
+													}
 												}
 											}
 										}
@@ -304,7 +352,7 @@ class mf_widget_logic_select
 											break;
 
 											default:
-												do_log("Widget Logic Missing: '".$page_widget_logic."'");
+												do_log("Widget Logic Missing 1: '".$page_widget_logic."'");
 											break;
 										}
 									}

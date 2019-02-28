@@ -85,10 +85,13 @@ jQuery(function($)
 				}
 			});
 
-			jQuery("html, body").animate(
+			if(dom_scroll_to.length > 0)
 			{
-				scrollTop: (dom_scroll_to.offset().top - 40)
-			}, 800);
+				jQuery("html, body").animate(
+				{
+					scrollTop: (dom_scroll_to.offset().top - 40)
+				}, 800);
+			}
 		}
 	}
 
