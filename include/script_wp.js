@@ -135,4 +135,11 @@ jQuery(function($)
 
 		update_widget_heading($(this));
 	});
+
+	$(document).on('change blur', ".widget-content input, .widget-content select", function()
+	{
+		console.log("Remove disabled " , $(this) , $(this).parents(".widget-content") , $(this).parents(".widget-content").find(".widget-control-actions input[type='submit']"));
+
+		$(this).parents(".widget-content").siblings(".widget-control-actions").find("input[type='submit']").removeAttr('disabled');
+	});
 });

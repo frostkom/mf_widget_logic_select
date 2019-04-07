@@ -4,7 +4,7 @@ class mf_widget_logic_select
 {
 	function __construct()
 	{
-		$this->meta_prefix = "mf_wls_";
+		$this->meta_prefix = 'mf_wls_';
 	}
 
 	function get_widget_search($search_for)
