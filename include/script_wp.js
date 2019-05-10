@@ -101,15 +101,7 @@ jQuery(function($)
 		update_widget_heading($(this));
 	});
 
-	/* This will just override the more specific click below */
-	/*$("#widgets-right .widgets-holder-wrap.closed .widgets-sortables").on('click', function()
-	{
-		var holder_id = $(this).attr('id');
-
-		location.hash = holder_id + "&";
-	});*/
-
-	$("#widgets-right .widgets-holder-wrap .widget:not(.open)").on('click', function()
+	$(document).on('click', "#widgets-right .widgets-holder-wrap .widget:not(.open)", function()
 	{
 		var widget_id = $(this).attr('id'),
 			arr_widget_id = widget_id.split("_"),
@@ -118,7 +110,7 @@ jQuery(function($)
 		location.hash = holder_id + "&" + arr_widget_id[1];
 	});
 
-	$(".widgets-sortables").on('change', ".widget_logic_select .form_select > select", function()
+	$(document).on('change', ".widgets-sortables .widget_logic_select .form_select > select", function()
 	{
 		var select_array = $(this).val(),
 			select_string = '';
@@ -138,8 +130,6 @@ jQuery(function($)
 
 	$(document).on('change blur', ".widget-content input, .widget-content select", function()
 	{
-		console.log("Remove disabled " , $(this) , $(this).parents(".widget-content") , $(this).parents(".widget-content").find(".widget-control-actions input[type='submit']"));
-
 		$(this).parents(".widget-content").siblings(".widget-control-actions").find("input[type='submit']").removeAttr('disabled');
 	});
 });

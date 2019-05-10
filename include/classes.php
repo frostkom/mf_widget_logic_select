@@ -30,89 +30,86 @@ class mf_widget_logic_select
 						{
 							foreach($arr_area as $widget)
 							{
-								if($search_for."-".$key_search == $widget)
+								if($search_for."-".$key_search == $widget && isset($arr_widget_logic[$widget]))
 								{
-									if(isset($arr_widget_logic[$widget]))
+									if($arr_widget_logic[$widget] == '')
 									{
-										if($arr_widget_logic[$widget] == '')
-										{
-											$out = get_option('page_on_front');
-										}
+										$out = get_option('page_on_front');
+									}
 
-										else
-										{
-											$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget]);
+									else
+									{
+										$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget]);
 
-											foreach($arr_page_widget_logic as $page_widget_logic)
+										foreach($arr_page_widget_logic as $page_widget_logic)
+										{
+											$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
+											$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
+
+											if($page_id > 0)
 											{
-												$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
-												$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
+												$out = $page_id;
 
-												if($page_id > 0)
+												break;
+											}
+
+											else if($singular_type != '')
+											{
+												$arr_data = array();
+												get_post_children(array('add_choose_here' => false, 'post_type' => $singular_type, 'limit' => 1), $arr_data);
+
+												if(count($arr_data) > 0)
 												{
-													$out = $page_id;
+													foreach($arr_data as $key => $value)
+													{
+														$out = $key;
+
+														break;
+													}
 
 													break;
 												}
+											}
 
-												else if($singular_type != '')
+											/*else if(substr($page_widget_logic, 0, 12) == "is_singular(")
+											{
+												$post_type = get_match("/\"(.*?)\\/", $page_widget_logic, false);
+
+												$arr_data = array();
+												get_post_children(array('add_choose_here' => false, 'post_type' => $post_type, 'limit' => 1), $arr_data);
+
+												if(count($arr_data) > 0)
 												{
-													$arr_data = array();
-													get_post_children(array('add_choose_here' => false, 'post_type' => $singular_type, 'limit' => 1), $arr_data);
-
-													if(count($arr_data) > 0)
+													foreach($arr_data as $key => $value)
 													{
-														foreach($arr_data as $key => $value)
-														{
-															$out = $key;
-
-															break;
-														}
+														$out = $key;
 
 														break;
 													}
+
+													break;
 												}
+											}*/
 
-												/*else if(substr($page_widget_logic, 0, 12) == "is_singular(")
+											else
+											{
+												switch($page_widget_logic)
 												{
-													$post_type = get_match("/\"(.*?)\\/", $page_widget_logic, false);
-
-													$arr_data = array();
-													get_post_children(array('add_choose_here' => false, 'post_type' => $post_type, 'limit' => 1), $arr_data);
-
-													if(count($arr_data) > 0)
-													{
-														foreach($arr_data as $key => $value)
-														{
-															$out = $key;
-
-															break;
-														}
+													case 'is_home()':
+														$out = get_option('page_on_front');
 
 														break;
-													}
-												}*/
+													break;
 
-												else
-												{
-													switch($page_widget_logic)
-													{
-														case 'is_home()':
-															$out = get_option('page_on_front');
+													/*case 'is_category()':
+														$out = "???";
 
-															break;
 														break;
+													break;*/
 
-														/*case 'is_category()':
-															$out = "???";
-
-															break;
-														break;*/
-
-														default:
-															do_log("Widget Logic Missing 2: '".$page_widget_logic."'");
-														break;
-													}
+													default:
+														do_log("Widget Logic Missing 2: '".$page_widget_logic."'");
+													break;
 												}
 											}
 										}
