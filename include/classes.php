@@ -48,7 +48,10 @@ class mf_widget_logic_select
 
 											if($page_id > 0)
 											{
-												$out = $page_id;
+												if(get_post_status($page_id) == 'publish')
+												{
+													$out = $page_id;
+												}
 
 												break;
 											}
@@ -313,6 +316,7 @@ class mf_widget_logic_select
 
 									$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
 									$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
+									$tax_type = trim(get_match("/is_tax\((.*?)\)/is", $page_widget_logic, false), '\"');
 
 									if($page_id > 0)
 									{
@@ -328,6 +332,30 @@ class mf_widget_logic_select
 										{
 											$show_on_page = true;
 										}
+									}
+
+									else if($tax_type != '')
+									{
+										$taxonomy = get_object_taxonomies($post_type);
+
+										$post_tax = var_export($taxonomy, true);
+
+										$terms = get_the_terms($post_id, $taxonomy);
+
+										if(!empty($terms))
+										{
+											foreach($terms as $term)
+											{
+												$post_tax .= " || ".var_export($term, true);
+											}
+										}
+
+										do_log("Checking '".$page_widget_logic."' -> ".$tax_type." -> ".$post_tax);
+
+										/*if($tax_type == $post_tax)
+										{
+											$show_on_page = true;
+										}*/
 									}
 
 									else
@@ -349,7 +377,7 @@ class mf_widget_logic_select
 											break;
 
 											default:
-												do_log("Widget Logic Missing 1: '".$page_widget_logic."'");
+												do_log("Widget Logic Missing 1: '".$page_widget_logic."' (#".$post_id.")");
 											break;
 										}
 									}
