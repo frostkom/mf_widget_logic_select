@@ -30,9 +30,9 @@ class mf_widget_logic_select
 						{
 							foreach($arr_area as $widget)
 							{
-								if($search_for."-".$key_search == $widget && isset($arr_widget_logic[$widget]))
+								if($search_for."-".$key_search == $widget)
 								{
-									if($arr_widget_logic[$widget] == '')
+									if(!isset($arr_widget_logic[$widget]) || $arr_widget_logic[$widget] == '')
 									{
 										$out = get_option('page_on_front');
 									}
