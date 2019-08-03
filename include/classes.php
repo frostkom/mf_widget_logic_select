@@ -493,8 +493,6 @@ class mf_widget_logic_select
 
 	function sidebars_widgets($sidebars_widgets)
 	{
-		global $wp_reset_query_is_done;
-
 		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
 			$wl_options = array();
