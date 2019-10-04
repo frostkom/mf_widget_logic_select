@@ -336,7 +336,7 @@ class mf_widget_logic_select
 
 									else if($tax_type != '')
 									{
-										$taxonomy = get_object_taxonomies($post_type);
+										/*$taxonomy = get_object_taxonomies($post_type);
 
 										$post_tax = var_export($taxonomy, true);
 
@@ -350,7 +350,7 @@ class mf_widget_logic_select
 											}
 										}
 
-										do_log("Checking '".$page_widget_logic."' -> ".$tax_type." -> ".$post_tax);
+										do_log("Checking '".$page_widget_logic."' -> ".$tax_type." -> ".$post_tax);*/
 
 										/*if($tax_type == $post_tax)
 										{
