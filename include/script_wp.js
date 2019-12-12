@@ -130,6 +130,6 @@ jQuery(function($)
 
 	$(document).on('change blur', ".widget-content input, .widget-content select", function()
 	{
-		$(this).parents(".widget-content").siblings(".widget-control-actions").find("input[type='submit']").removeAttr('disabled');
+		$(this).parents(".widget-content").siblings(".widget-control-actions").find("input[type='submit']").removeClass('is_disabled').removeAttr('disabled');
 	});
 });
