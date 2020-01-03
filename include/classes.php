@@ -439,10 +439,12 @@ class mf_widget_logic_select
 
 	function rwmb_meta_boxes($meta_boxes)
 	{
+		$obj_base = new mf_base();
+
 		$meta_boxes[] = array(
 			'id' => $this->meta_prefix.'widgets',
 			'title' => __("Widgets", 'lang_wls'),
-			'post_types' => get_post_types_for_metabox(),
+			'post_types' => $obj_base->get_post_types_for_metabox(),
 			'context' => 'normal',
 			'priority' => 'low',
 			'fields' => array(
