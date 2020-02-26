@@ -123,7 +123,7 @@ jQuery(function($)
 			}
 		}
 
-		$(this).parent(".form_select").siblings(".form_textfield").children("input").val(select_string).removeClass('hide');
+		$(this).parent(".form_select").siblings(".form_textfield").children("input.widget_logic").val(select_string).removeClass('hide');
 
 		update_widget_heading($(this));
 	});

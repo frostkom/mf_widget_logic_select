@@ -149,7 +149,6 @@ class mf_widget_logic_select
 		if(isset($_POST[$widget_id.'-widget_logic']))
 		{
 			$wl_options[$widget_id] = trim($_POST[$widget_id.'-widget_logic']);
-
 			update_option('widget_logic', $wl_options);
 		}
 
@@ -203,7 +202,7 @@ class mf_widget_logic_select
 			echo "<div id='".$id_disp."-widget_logic_select' class='widget_logic_select mf_form'>"
 				.get_toggler_container(array('type' => 'start', 'text' => __("Choose page to display this widget on", 'lang_wls'), 'rel' => $id_disp))
 					.show_select(array('data' => get_post_types_for_select(array('post_status' => '')), 'name' => $id_disp."-widget_logic_data[]", 'value' => $arr_values))
-					.show_textfield(array('name' => $id_disp."-widget_logic", 'value' => $value, 'xtra' => "class='".$id_disp."-widget_logic widefat".(preg_match("/is_singular/", $value) ? "" : " hide")."'"))
+					.show_textfield(array('name' => $id_disp."-widget_logic", 'value' => $value, 'xtra' => "class='".$id_disp."-widget_logic widefat widget_logic".(preg_match("/is_singular/", $value) ? "" : " hide")."'"))
 				.get_toggler_container(array('type' => 'end'))
 			."</div>";
 		//}
