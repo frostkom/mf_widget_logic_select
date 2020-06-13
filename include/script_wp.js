@@ -34,7 +34,7 @@ jQuery(function($)
 
 			else if(i == 3)
 			{
-				out += "&hellip;";
+				out += "..."; /* Do not use &hellip; here */
 			}
 
 			i++;
