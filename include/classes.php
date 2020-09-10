@@ -270,11 +270,13 @@ class mf_widget_logic_select
 
 	function meta_page_widgets()
 	{
-		global $wp_registered_widgets;
+		global $wp_registered_widgets, $post;
 
 		$out = "";
 
-		$post_id = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
+		//$post_id = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
+		//$post_id = check_var('post', 'int');
+		$post_id = $post->ID;
 
 		if($post_id > 0)
 		{
@@ -443,7 +445,12 @@ class mf_widget_logic_select
 
 	function rwmb_meta_boxes($meta_boxes)
 	{
-		$obj_base = new mf_base();
+		global $obj_base;
+
+		if(!isset($obj_base))
+		{
+			$obj_base = new mf_base();
+		}
 
 		$meta_boxes[] = array(
 			'id' => $this->meta_prefix.'widgets',
