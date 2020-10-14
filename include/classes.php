@@ -511,6 +511,8 @@ class mf_widget_logic_select
 
 	function sidebars_widgets($sidebars_widgets)
 	{
+		global $post;
+
 		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
 			$wl_options = array();
@@ -541,6 +543,8 @@ class mf_widget_logic_select
 
 				if($wl_value === false)
 				{
+					$log_message .= ($log_message != '' ? ", " : "")."Logic Override (".$pos.")";
+
 					unset($sidebars_widgets[$widget_area][$pos]);
 
 					continue;
@@ -558,6 +562,16 @@ class mf_widget_logic_select
 
 				if(!eval($wl_value))
 				{
+					/*if($widget_area == 'sidebar-main' && $_SERVER['REMOTE_ADDR'] == "")
+					{
+						$post_id = (isset($post->ID) && $post->ID > 0 ? $post->ID : 0); //$_SERVER['REQUEST_URI']
+
+						if($post_id > 0)
+						{
+							do_log("sidebars_widgets(".$post_id.", ".var_export(get_the_category(), true).", ".$widget_area."): Eval failed (".$pos.", ".$wl_value.")");
+						}
+					}*/
+
 					unset($sidebars_widgets[$widget_area][$pos]);
 				}
 			}
