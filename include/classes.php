@@ -388,7 +388,32 @@ class mf_widget_logic_select
 											break;
 
 											default:
-												do_log("Widget Logic Missing 1: '".$page_widget_logic."' (#".$post_id.")");
+												$log_message = "Widget Logic Missing 1: '".$page_widget_logic."' (#".$post_id.")";
+
+												if(substr($page_widget_logic, 0, 12) == "is_category(")
+												{
+													$category_id = (int)str_replace(array("is_category(", ")"), "", $page_widget_logic);
+
+													if($category_id > 0)
+													{
+														if(is_category($category_id))
+														{
+															$show_on_page = true;
+														}
+													}
+
+													else
+													{
+														do_log("Widget Logic Category Error: '".$page_widget_logic."' -> ".$category_id." (#".$post_id.")");
+													}
+
+													do_log($log_message, 'trash');
+												}
+
+												else
+												{
+													do_log($log_message);
+												}
 											break;
 										}
 									}
