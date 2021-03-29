@@ -132,11 +132,6 @@ class mf_widget_logic_select
 	{
 		global $pagenow;
 
-		if(!is_plugin_active("mf_base/index.php"))
-		{
-			deactivate_plugins(str_replace("include/classes.php", "index.php", plugin_basename(__FILE__)));
-		}
-
 		if($pagenow == 'widgets.php')
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
