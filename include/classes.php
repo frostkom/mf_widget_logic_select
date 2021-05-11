@@ -132,13 +132,17 @@ class mf_widget_logic_select
 	{
 		global $pagenow;
 
-		if($pagenow == 'widgets.php')
+		switch($pagenow)
 		{
-			$plugin_include_url = plugin_dir_url(__FILE__);
-			$plugin_version = get_plugin_version(__FILE__);
+			case 'widgets.php':
+				$plugin_include_url = plugin_dir_url(__FILE__);
+				$plugin_version = get_plugin_version(__FILE__);
 
-			mf_enqueue_style('style_wls', $plugin_include_url."style_wp.css", $plugin_version);
-			mf_enqueue_script('script_wls', $plugin_include_url."script_wp.js", $plugin_version);
+				mf_enqueue_style('style_wls', $plugin_include_url."style_wp.css", $plugin_version);
+				mf_enqueue_script('script_wls', $plugin_include_url."script_wp.js", array(
+					'choose_here_text' => __("Filter Widgets Here", 'lang_wls'),
+				), $plugin_version);
+			break;
 		}
 	}
 
@@ -182,7 +186,7 @@ class mf_widget_logic_select
 			call_user_func_array($callback, $params);
 		}
 
-		$value = !empty($wl_options[$id]) ? htmlspecialchars(stripslashes($wl_options[$id]), ENT_QUOTES) : '';
+		$value = (!empty($wl_options[$id]) ? htmlspecialchars(stripslashes($wl_options[$id]), ENT_QUOTES) : '');
 
 		// dealing with multiple widgets - get the number. if -1 this is the 'template' for the admin interface
 		$number = $params[0]['number'];

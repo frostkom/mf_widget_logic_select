@@ -23,36 +23,42 @@ jQuery(function($)
 	function update_widget_heading(dom_obj)
 	{
 		var i = 0,
-			out = '';
+			widget_class = "widget",
+			widget_title = "";
 
 		dom_obj.find("option:selected").each(function()
 		{
 			if(i < 3)
 			{
-				out += (out != '' ? ", " : "") + $(this).text().trim();
+				widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
 			}
 
 			else if(i == 3)
 			{
-				out += "..."; /* Do not use &hellip; here */
+				widget_title += "..."; /* Do not use &hellip; here */
 			}
+
+			widget_class += " page_" + $(this).attr('value');
 
 			i++;
 		});
 
-		if(out != '')
+		if(widget_title != '')
 		{
-			var dom_heading = dom_obj.parents(".widget").find(".widget-title h3"),
+			var dom_widget = dom_obj.parents(".widget"),
+				dom_heading = dom_widget.find(".widget-title h3"),
 				dom_info = dom_heading.children("em");
+
+			dom_widget.attr({'class': widget_class});
 
 			if(dom_info.length > 0)
 			{
-				dom_info.text("(" + out + ")");
+				dom_info.text("(" + widget_title + ")");
 			}
 
 			else
 			{
-				dom_heading.append("<em>(" + out + ")</em>");
+				dom_heading.append("<em>(" + widget_title + ")</em>");
 			}
 		}
 	}
@@ -95,10 +101,41 @@ jQuery(function($)
 		}
 	}
 
+	var select_count = 0;
+
 	$(".widget_logic_select select").each(function()
 	{
+		if(select_count == 0)
+		{
+			$("#widgets-right").prepend("<select><option value=''>-- " + script_wls.choose_here_text + " --</option>" + $(this).html() + "</select>");
+		}
+
 		update_widget_area_heading($(this));
 		update_widget_heading($(this));
+
+		select_count++;
+	});
+
+	$(document).on('change', "#widgets-right > select", function()
+	{
+		var dom_widgets_obj = $("#widgets-right").find(".widget"),
+			dom_value = $(this).val();
+
+		if(dom_value != '')
+		{
+			dom_widgets_obj.addClass('filter_hide').each(function()
+			{
+				if($(this).hasClass("page_" + dom_value))
+				{
+					$(this).removeClass('filter_hide');
+				}
+			});
+		}
+
+		else
+		{
+			dom_widgets_obj.removeClass('filter_hide');
+		}
 	});
 
 	$(document).on('click', "#widgets-right .widgets-holder-wrap .widget:not(.open)", function()

@@ -3,7 +3,7 @@
 Plugin Name: MF Widget Logic
 Plugin URI: https://github.com/frostkom/mf_widget_logic_select
 Description: 
-Version: 3.3.6
+Version: 3.4.0
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se

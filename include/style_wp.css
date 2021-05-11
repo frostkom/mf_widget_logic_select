@@ -1,5 +1,10 @@
 @media all
 {
+	.wrap #widgets-right .widget.filter_hide
+	{
+		opacity: .5;
+	}
+
 	.wrap .sidebar-name h2
 	{
 		position: relative;
