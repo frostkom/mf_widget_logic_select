@@ -9,6 +9,8 @@ class mf_widget_logic_select
 
 	function get_widget_search($search_for)
 	{
+		global $wpdb;
+
 		$out = 0;
 
 		if($search_for != '')
@@ -30,11 +32,34 @@ class mf_widget_logic_select
 						{
 							foreach($arr_area as $widget)
 							{
+								/*if($search_for == 'theme-widget-area-widget')
+								{
+									do_log("Widgets - Looking: ".$search_for."-".$key_search." == ".$widget);
+								}*/
+
 								if($search_for."-".$key_search == $widget)
 								{
+									/*if($search_for == 'theme-widget-area-widget')
+									{
+										do_log("Widgets - Looking - Logic: ".$search_for."-".$key_search." == ".$widget." (".isset($arr_widget_logic[$widget])." || ".$arr_widget_logic[$widget].")");
+									}*/
+
 									if(!isset($arr_widget_logic[$widget]) || $arr_widget_logic[$widget] == '')
 									{
 										$out = get_option('page_on_front');
+
+										// Get first published page if displaying latest posts
+										if(!($out > 0))
+										{
+											$show_on_front = get_option('show_on_front');
+
+											if($show_on_front == 'posts')
+											{
+												$out = $wpdb->get_var($wpdb->prepare("SELECT ID FROM ".$wpdb->posts." WHERE post_type = %s AND post_status = %s ORDER BY menu_order ASC LIMIT 0, 1", 'page', 'publish'));
+											}
+										}
+
+										break 3;
 									}
 
 									else
@@ -53,7 +78,7 @@ class mf_widget_logic_select
 													$out = $page_id;
 												}
 
-												break;
+												break 4;
 											}
 
 											else if($singular_type != '')
@@ -67,10 +92,10 @@ class mf_widget_logic_select
 													{
 														$out = $key;
 
-														break;
+														break 5;
 													}
 
-													break;
+													break 4;
 												}
 											}
 
@@ -87,10 +112,10 @@ class mf_widget_logic_select
 													{
 														$out = $key;
 
-														break;
+														break 5;
 													}
 
-													break;
+													break 4;
 												}
 											}*/
 
@@ -101,13 +126,13 @@ class mf_widget_logic_select
 													case 'is_home()':
 														$out = get_option('page_on_front');
 
-														break;
+														break 4;
 													break;
 
 													/*case 'is_category()':
 														$out = "???";
 
-														break;
+														break 4;
 													break;*/
 
 													default:
