@@ -611,9 +611,9 @@ class mf_widget_logic_select
 
 				if(!eval($wl_value))
 				{
-					/*if($widget_area == 'sidebar-main' && $_SERVER['REMOTE_ADDR'] == "")
+					/*if($widget_area == 'sidebar-main')
 					{
-						$post_id = (isset($post->ID) && $post->ID > 0 ? $post->ID : 0); //$_SERVER['REQUEST_URI']
+						$post_id = (isset($post->ID) && $post->ID > 0 ? $post->ID : 0);
 
 						if($post_id > 0)
 						{
