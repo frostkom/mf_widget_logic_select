@@ -173,16 +173,36 @@ class mf_widget_logic_select
 
 	function widget_update_callback($instance, $new_instance, $this_widget)
 	{
-		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
+		$widget_id = (isset($this_widget->id) ? $this_widget->id : "");
+
+		if(isset($_POST[$widget_id.'-widget_logic_state']))
 		{
-			$wl_options = array();
+			$arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
+
+			$arr_widget_logic_state[$widget_id] = trim($_POST[$widget_id.'-widget_logic_state']);
+
+			update_option('widget_logic_state', $arr_widget_logic_state);
 		}
 
-		$widget_id = isset($this_widget->id) ? $this_widget->id : "";
+		if(isset($_POST[$widget_id.'-widget_logic_screens']))
+		{
+			$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
+
+			$arr_widget_logic_screens[$widget_id] = trim($_POST[$widget_id.'-widget_logic_screens']);
+
+			update_option('widget_logic_screens', $arr_widget_logic_screens);
+		}
 
 		if(isset($_POST[$widget_id.'-widget_logic']))
 		{
+			/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
+			{
+				$wl_options = array();
+			}*/
+			$wl_options = get_option_or_default('widget_logic', array());
+
 			$wl_options[$widget_id] = trim($_POST[$widget_id.'-widget_logic']);
+
 			update_option('widget_logic', $wl_options);
 		}
 
@@ -191,14 +211,35 @@ class mf_widget_logic_select
 
 	function widget_logic_empty_control(){}
 
+	function get_logged_in_state_for_select()
+	{
+		return array(
+			'' => "-- ".__("Choose Here", 'lang_wls')." --",
+			'logged_out' => __("Logged Out", 'lang_wls'),
+			'logged_in' => __("Logged In", 'lang_wls'),
+		);
+	}
+
+	function get_screens_for_select()
+	{
+		return array(
+			'mobile' => __("Mobile", 'lang_wls'),
+			'tablet' => __("Tablet", 'lang_wls'),
+			'desktop' => __("Desktop", 'lang_wls'),
+		);
+	}
+
 	function widget_logic_extra_control()
 	{
 		global $wp_registered_widget_controls;
 
-		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
+		$arr_widget_logic_state = get_option('widget_logic_state');
+		$arr_widget_logic_screens = get_option('widget_logic_screens');
+		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
 			$wl_options = array();
-		}
+		}*/
+		$wl_options = get_option_or_default('widget_logic', array());
 
 		$params = func_get_args();
 		$id = array_pop($params);
@@ -219,6 +260,7 @@ class mf_widget_logic_select
 		if($number == -1)
 		{
 			$number = "__i__";
+			$arr_widget_logic_screens = array();
 			$value = "";
 		}
 
@@ -231,11 +273,13 @@ class mf_widget_logic_select
 
 		/*if($number != "__i__")
 		{*/
-			$arr_values = explode(" || ", $value);
+			$arr_logic_pages = explode(" || ", $value);
 
 			echo "<div id='".$id_disp."-widget_logic_select' class='widget_logic_select mf_form'>"
-				.get_toggler_container(array('type' => 'start', 'text' => __("Choose page to display this widget on", 'lang_wls'), 'rel' => $id_disp))
-					.show_select(array('data' => get_post_types_for_select(array('post_status' => '')), 'name' => $id_disp."-widget_logic_data[]", 'value' => $arr_values))
+				.get_toggler_container(array('type' => 'start', 'text' => __("Choose where to display this widget", 'lang_wls'), 'rel' => $id_disp))
+					.show_select(array('data' => $this->get_logged_in_state_for_select(), 'name' => $id_disp."-widget_logic_state", 'value' => (isset($arr_widget_logic_state[$id_disp]) ? $arr_widget_logic_state[$id_disp] : array()), 'class' => "widget_logic_state"))
+					.show_select(array('data' => $this->get_screens_for_select(), 'name' => $id_disp."-widget_logic_screens[]", 'value' => (isset($arr_widget_logic_screens[$id_disp]) ? $arr_widget_logic_screens[$id_disp] : array()), 'class' => "widget_logic_screens"))
+					.show_select(array('data' => get_post_types_for_select(array('post_status' => '')), 'name' => $id_disp."-widget_logic_data[]", 'value' => $arr_logic_pages, 'class' => "widget_logic_page"))
 					.show_textfield(array('name' => $id_disp."-widget_logic", 'value' => $value, 'xtra' => "class='".$id_disp."-widget_logic widefat widget_logic".(preg_match("/is_singular/", $value) ? "" : " hide")."'"))
 				.get_toggler_container(array('type' => 'end'))
 			."</div>";
@@ -246,10 +290,13 @@ class mf_widget_logic_select
 	{
 		global $wp_registered_widgets, $wp_registered_widget_controls;
 
-		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
+		$arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
+		$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
+		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
 			$wl_options = array();
-		}
+		}*/
+		$wl_options = get_option_or_default('widget_logic', array());
 
 		// Add extra field to each widget
 		foreach($wp_registered_widgets as $id => $widget)
@@ -272,6 +319,16 @@ class mf_widget_logic_select
 			{
 				foreach((array)$_POST['widget-id'] as $widget_number => $widget_id)
 				{
+					if(isset($_POST[$widget_id.'-widget_logic_state']))
+					{
+						$arr_widget_logic_state[$widget_id] = $_POST[$widget_id.'-widget_logic_state'];
+					}
+
+					if(isset($_POST[$widget_id.'-widget_logic_screens']))
+					{
+						$arr_widget_logic_screens[$widget_id] = $_POST[$widget_id.'-widget_logic_screens'];
+					}
+
 					if(isset($_POST[$widget_id.'-widget_logic']))
 					{
 						$wl_options[$widget_id] = trim($_POST[$widget_id.'-widget_logic']);
@@ -279,7 +336,7 @@ class mf_widget_logic_select
 				}
 			}
 
-			// clean up empty options
+			// Clean up empty options
 			$regd_plus_new = array_merge(
 				array_keys($wp_registered_widgets),
 				array_values((array)(isset($_POST['widget-id']) ? $_POST['widget-id'] : array()))
@@ -294,6 +351,8 @@ class mf_widget_logic_select
 			}
 		}
 
+		update_option('widget_logic_state', $arr_widget_logic_state);
+		update_option('widget_logic_screens', $arr_widget_logic_screens);
 		update_option('widget_logic', $wl_options);
 	}
 
@@ -303,8 +362,6 @@ class mf_widget_logic_select
 
 		$out = "";
 
-		//$post_id = filter_input(INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT);
-		//$post_id = check_var('post', 'int');
 		$post_id = $post->ID;
 
 		if($post_id > 0)
@@ -558,14 +615,29 @@ class mf_widget_logic_select
 		return $components;
 	}
 
+	function wp_head()
+	{
+		$arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
+		$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
+
+		if(count($arr_widget_logic_state) > 0 || count($arr_widget_logic_screens) > 0)
+		{
+			$plugin_include_url = plugin_dir_url(__FILE__);
+			$plugin_version = get_plugin_version(__FILE__);
+
+			mf_enqueue_style('style_widget_logic', $plugin_include_url."style.php", $plugin_version);
+		}
+	}
+
 	function sidebars_widgets($sidebars_widgets)
 	{
 		global $post;
 
-		if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
+		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
 		{
 			$wl_options = array();
-		}
+		}*/
+		$wl_options = get_option_or_default('widget_logic', array());
 
 		foreach($sidebars_widgets as $widget_area => $widget_list)
 		{

@@ -3,7 +3,7 @@
 Plugin Name: MF Widget Logic
 Plugin URI: https://github.com/frostkom/mf_widget_logic_select
 Description: 
-Version: 3.4.5
+Version: 3.4.9
 Licence: GPLv2 or later
 Author: Martin Fors
 Author URI: https://frostkom.se
@@ -22,6 +22,8 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 
 	if(is_admin())
 	{
+		register_uninstall_hook(__FILE__, 'uninstall_wls');
+
 		add_action('admin_init', array($obj_wls, 'admin_init'), 0);
 
 		add_filter('gutenberg_use_widgets_block_editor', '__return_false', 100);
@@ -53,8 +55,17 @@ if(function_exists('is_plugin_active') && is_plugin_active("mf_base/index.php"))
 
 	else
 	{
+		add_action('wp_head', array($obj_wls, 'wp_head'), 0);
+
 		add_filter('sidebars_widgets', array($obj_wls, 'sidebars_widgets'), 10);
 	}
 
 	add_filter('get_widget_search', array($obj_wls, 'get_widget_search'));
+
+	function uninstall_wls()
+	{
+		mf_uninstall_plugin(array(
+			'options' => array('widget_logic', 'widget_logic_state', 'widget_logic_screens'),
+		));
+	}
 }

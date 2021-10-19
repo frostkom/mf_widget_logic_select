@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-11 12:14+0100\n"
+"POT-Creation-Date: 2021-10-16 21:12+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martin Fors\n"
 "Language-Team: \n"
@@ -15,15 +15,39 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../include/classes.php:143
+#: ../include/classes.php:168
 msgid "Filter Widgets Here"
 msgstr "Filtrera widgetar här"
 
-#: ../include/classes.php:212
-msgid "Choose page to display this widget on"
-msgstr "Välj sida att visa denna widget på"
+#: ../include/classes.php:217
+msgid "Choose Here"
+msgstr "Välj här"
 
-#: ../include/classes.php:486
+#: ../include/classes.php:218
+msgid "Logged Out"
+msgstr "Utloggad"
+
+#: ../include/classes.php:219
+msgid "Logged In"
+msgstr "Inloggad"
+
+#: ../include/classes.php:226
+msgid "Mobile"
+msgstr "Mobil"
+
+#: ../include/classes.php:227
+msgid "Tablet"
+msgstr "Platta"
+
+#: ../include/classes.php:228
+msgid "Desktop"
+msgstr "Dator"
+
+#: ../include/classes.php:279
+msgid "Choose where to display this widget"
+msgstr "Välj var denna widget ska visas"
+
+#: ../include/classes.php:568
 msgid "Widgets"
 msgstr "Widgetar"
 
