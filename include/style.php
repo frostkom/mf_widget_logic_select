@@ -93,10 +93,7 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 	//do_log("WLS: ".$key.": ".var_export($value, true));
 }
 
-if($out != '')
-{
-	echo "@media all
-	{"
-		.$out
-	."}";
-}
+echo "@media all
+{"
+	.$out
+."}";
