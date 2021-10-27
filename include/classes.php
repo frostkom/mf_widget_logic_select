@@ -184,14 +184,27 @@ class mf_widget_logic_select
 			update_option('widget_logic_state', $arr_widget_logic_state);
 		}
 
-		if(isset($_POST[$widget_id.'-widget_logic_screens']))
+		if(isset($_POST[$widget_id.'-widget_logic_screens'])) // && $_POST[$widget_id.'-widget_logic_screens'] != ''
 		{
 			$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
+
+			//do_log("widget_update_callback() -> screens: ".var_export($_POST[$widget_id.'-widget_logic_screens'], true));
 
 			$arr_widget_logic_screens[$widget_id] = trim($_POST[$widget_id.'-widget_logic_screens']);
 
 			update_option('widget_logic_screens', $arr_widget_logic_screens);
+
+			//do_log("widget_update_callback() -> Updated Screens: ".var_export($arr_widget_logic_screens, true));
 		}
+
+		/*else
+		{
+			$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
+
+			unset($arr_widget_logic_screens[$widget_id]);
+
+			update_option('widget_logic_screens', $arr_widget_logic_screens);
+		}*/
 
 		if(isset($_POST[$widget_id.'-widget_logic']))
 		{
@@ -327,6 +340,15 @@ class mf_widget_logic_select
 					if(isset($_POST[$widget_id.'-widget_logic_screens']))
 					{
 						$arr_widget_logic_screens[$widget_id] = $_POST[$widget_id.'-widget_logic_screens'];
+
+						//do_log("sidebar_admin_setup() -> screens: ".var_export($_POST[$widget_id.'-widget_logic_screens'], true));
+					}
+
+					else
+					{
+						unset($arr_widget_logic_screens[$widget_id]);
+
+						//do_log("sidebar_admin_setup() -> Unset screens for ".$widget_id);
 					}
 
 					if(isset($_POST[$widget_id.'-widget_logic']))
@@ -354,6 +376,8 @@ class mf_widget_logic_select
 		update_option('widget_logic_state', $arr_widget_logic_state);
 		update_option('widget_logic_screens', $arr_widget_logic_screens);
 		update_option('widget_logic', $wl_options);
+
+		//do_log("sidebar_admin_setup() -> Updated Screens: ".var_export($arr_widget_logic_screens, true));
 	}
 
 	function meta_page_widgets()
