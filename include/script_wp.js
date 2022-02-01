@@ -31,9 +31,9 @@ jQuery(function($)
 			if($(this).val() != '' && i < 3)
 			{
 				widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
-				
+
 				i++;
-			}			
+			}
 		});
 
 		dom_obj.find(".widget_logic_screens select").find("option:selected").each(function()
@@ -41,7 +41,7 @@ jQuery(function($)
 			if(i < 3)
 			{
 				widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
-				
+
 				i++;
 			}
 		});
@@ -51,7 +51,7 @@ jQuery(function($)
 			if(i < 3)
 			{
 				widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
-				
+
 				i++;
 			}
 

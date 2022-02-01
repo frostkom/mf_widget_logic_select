@@ -26,14 +26,14 @@ foreach($arr_widget_logic_state as $key => $value)
 		case 'logged_in':
 			$out .= "body:not(.is_logged_in) .".$key."
 			{
-				display: none;	
+				display: none;
 			}";
 		break;
 
 		case 'logged_out':
 			$out .= "body.is_logged_in .".$key."
 			{
-				display: none;	
+				display: none;
 			}";
 		break;
 	}
@@ -69,7 +69,7 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 		{
 			$out .= ".is_mobile .".$key."
 			{
-				display: none;	
+				display: none;
 			}";
 		}
 
@@ -77,7 +77,7 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 		{
 			$out .= ".is_tablet .".$key."
 			{
-				display: none;	
+				display: none;
 			}";
 		}
 
@@ -85,7 +85,7 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 		{
 			$out .= ".is_desktop .".$key."
 			{
-				display: none;	
+				display: none;
 			}";
 		}
 	}
