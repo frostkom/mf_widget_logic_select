@@ -36,15 +36,18 @@ jQuery(function($)
 			}
 		});
 
-		dom_obj.find(".widget_logic_screens select").find("option:selected").each(function()
+		if(dom_obj.find(".widget_logic_screens select").find("option").length > dom_obj.find(".widget_logic_screens select").find("option:selected").length)
 		{
-			if(i < 3)
+			dom_obj.find(".widget_logic_screens select").find("option:selected").each(function()
 			{
-				widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
+				if(i < 3)
+				{
+					widget_title += (widget_title != '' ? ", " : "") + $(this).text().trim();
 
-				i++;
-			}
-		});
+					i++;
+				}
+			});
+		}
 
 		dom_obj.find(".widget_logic_page select").find("option:selected").each(function()
 		{
