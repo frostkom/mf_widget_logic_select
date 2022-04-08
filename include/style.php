@@ -37,8 +37,6 @@ foreach($arr_widget_logic_state as $key => $value)
 			}";
 		break;
 	}
-
-	//do_log("WLS: ".$key.": ".var_export($value, true));
 }
 
 foreach($arr_widget_logic_screens as $key => $arr_value)
@@ -89,8 +87,6 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 			}";
 		}
 	}
-
-	//do_log("WLS: ".$key.": ".var_export($value, true));
 }
 
 echo "@media all

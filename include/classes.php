@@ -22,8 +22,6 @@ class mf_widget_logic_select
 				$arr_widget_area = get_option('sidebars_widgets');
 				$arr_widget_logic = get_option('widget_logic');
 
-				//do_log("Widgets: ".$search_for." --- ".var_export($arr_search_widget, true)." ---------- ".var_export($arr_widget_area, true)." ---------- ".var_export($arr_widget_logic, true));
-
 				foreach($arr_search_widget as $key_search => $arr_search)
 				{
 					foreach($arr_widget_area as $arr_area)
@@ -32,18 +30,8 @@ class mf_widget_logic_select
 						{
 							foreach($arr_area as $widget)
 							{
-								/*if($search_for == 'theme-widget-area-widget')
-								{
-									do_log("Widgets - Looking: ".$search_for."-".$key_search." == ".$widget);
-								}*/
-
 								if($search_for."-".$key_search == $widget)
 								{
-									/*if($search_for == 'theme-widget-area-widget')
-									{
-										do_log("Widgets - Looking - Logic: ".$search_for."-".$key_search." == ".$widget." (".isset($arr_widget_logic[$widget])." || ".$arr_widget_logic[$widget].")");
-									}*/
-
 									if(!isset($arr_widget_logic[$widget]) || $arr_widget_logic[$widget] == '')
 									{
 										$out = get_option('page_on_front');
@@ -123,8 +111,32 @@ class mf_widget_logic_select
 											{
 												switch($page_widget_logic)
 												{
+													case 'is_front_page()':
+														$page_on_front = get_option('page_on_front');
+
+														if($page_on_front > 0)
+														{
+															$out = $page_on_front;
+														}
+													break;
+
 													case 'is_home()':
-														$out = get_option('page_on_front');
+														// Old way...
+														//$out = get_option('page_on_front');
+
+														$show_on_front = get_option('show_on_front');
+														$page_on_front = get_option('page_on_front');
+														$page_for_posts = get_option('page_for_posts');
+
+														if(($show_on_front == 'page' || $page_on_front > 0) && $page_for_posts > 0)
+														{
+															$out = $page_for_posts;
+														}
+
+														else
+														{
+															$out = $page_on_front;
+														}
 
 														break 4;
 													break;
@@ -184,17 +196,13 @@ class mf_widget_logic_select
 			update_option('widget_logic_state', $arr_widget_logic_state);
 		}
 
-		if(isset($_POST[$widget_id.'-widget_logic_screens'])) // && $_POST[$widget_id.'-widget_logic_screens'] != ''
+		if(isset($_POST[$widget_id.'-widget_logic_screens']))
 		{
 			$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
-
-			//do_log("widget_update_callback() -> screens: ".var_export($_POST[$widget_id.'-widget_logic_screens'], true));
 
 			$arr_widget_logic_screens[$widget_id] = trim($_POST[$widget_id.'-widget_logic_screens']);
 
 			update_option('widget_logic_screens', $arr_widget_logic_screens);
-
-			//do_log("widget_update_callback() -> Updated Screens: ".var_export($arr_widget_logic_screens, true));
 		}
 
 		/*else
@@ -208,10 +216,6 @@ class mf_widget_logic_select
 
 		if(isset($_POST[$widget_id.'-widget_logic']))
 		{
-			/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
-			{
-				$wl_options = array();
-			}*/
 			$wl_options = get_option_or_default('widget_logic', array());
 
 			$wl_options[$widget_id] = trim($_POST[$widget_id.'-widget_logic']);
@@ -248,10 +252,6 @@ class mf_widget_logic_select
 
 		$arr_widget_logic_state = get_option('widget_logic_state');
 		$arr_widget_logic_screens = get_option('widget_logic_screens');
-		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
-		{
-			$wl_options = array();
-		}*/
 		$wl_options = get_option_or_default('widget_logic', array());
 
 		$params = func_get_args();
@@ -305,10 +305,6 @@ class mf_widget_logic_select
 
 		$arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
 		$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
-		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
-		{
-			$wl_options = array();
-		}*/
 		$wl_options = get_option_or_default('widget_logic', array());
 
 		// Add extra field to each widget
@@ -340,15 +336,11 @@ class mf_widget_logic_select
 					if(isset($_POST[$widget_id.'-widget_logic_screens']))
 					{
 						$arr_widget_logic_screens[$widget_id] = $_POST[$widget_id.'-widget_logic_screens'];
-
-						//do_log("sidebar_admin_setup() -> screens: ".var_export($_POST[$widget_id.'-widget_logic_screens'], true));
 					}
 
 					else
 					{
 						unset($arr_widget_logic_screens[$widget_id]);
-
-						//do_log("sidebar_admin_setup() -> Unset screens for ".$widget_id);
 					}
 
 					if(isset($_POST[$widget_id.'-widget_logic']))
@@ -376,8 +368,6 @@ class mf_widget_logic_select
 		update_option('widget_logic_state', $arr_widget_logic_state);
 		update_option('widget_logic_screens', $arr_widget_logic_screens);
 		update_option('widget_logic', $wl_options);
-
-		//do_log("sidebar_admin_setup() -> Updated Screens: ".var_export($arr_widget_logic_screens, true));
 	}
 
 	function meta_page_widgets()
@@ -478,10 +468,40 @@ class mf_widget_logic_select
 									{
 										switch($page_widget_logic)
 										{
-											case 'is_home()':
-												if($post_id == get_option('page_on_front'))
+											case 'is_front_page()':
+												$page_on_front = get_option('page_on_front');
+
+												if($post_id == $page_on_front)
 												{
 													$show_on_page = true;
+												}
+											break;
+
+											case 'is_home()':
+												// Old way...
+												/*if($post_id == get_option('page_on_front'))
+												{
+													$show_on_page = true;
+												}*/
+
+												$show_on_front = get_option('show_on_front');
+												$page_on_front = get_option('page_on_front');
+												$page_for_posts = get_option('page_for_posts');
+
+												if(($show_on_front == 'page' || $page_on_front > 0) && $page_for_posts > 0)
+												{
+													if($post_id == $page_for_posts)
+													{
+														$show_on_page = true;
+													}
+												}
+
+												else
+												{
+													if($post_id == $page_on_front)
+													{
+														$show_on_page = true;
+													}
 												}
 											break;
 
@@ -565,9 +585,9 @@ class mf_widget_logic_select
 							$out .= "</ul>";
 						}
 
-						else
+						else if(!in_array($sidebar_key, array('sidebar-primary', 'sidebar-content-intro')))
 						{
-							do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")"); //var_export($arr_output, true)
+							do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")");
 						}
 					}
 
@@ -657,10 +677,6 @@ class mf_widget_logic_select
 	{
 		global $post;
 
-		/*if((!$wl_options = get_option('widget_logic')) || !is_array($wl_options))
-		{
-			$wl_options = array();
-		}*/
 		$wl_options = get_option_or_default('widget_logic', array());
 
 		foreach($sidebars_widgets as $widget_area => $widget_list)
