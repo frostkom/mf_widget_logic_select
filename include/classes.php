@@ -399,7 +399,7 @@ class mf_widget_logic_select
 						{
 							$arr_widget_parts = explode('-', $widget);
 
-							$count_temp = count($arr_widget_parts) - 1;
+							$count_temp = (count($arr_widget_parts) - 1);
 
 							$widget_type = "";
 
@@ -739,5 +739,33 @@ class mf_widget_logic_select
 		}
 
 		return $sidebars_widgets;
+	}
+
+	function filter_before_widget($html)
+	{
+		if(IS_EDITOR)
+		{
+			$arr_sidebars = wp_get_sidebars_widgets();
+
+			foreach($arr_sidebars as $sidebar_key => $arr_sidebar_widgets)
+			{
+				if($sidebar_key != 'wp_inactive_widgets' && is_array($arr_sidebar_widgets))
+				{
+					foreach($arr_sidebar_widgets as $widget_key => $widget_class)
+					{
+						if(strpos($html, $widget_class) !== false)
+						{
+							$html = str_replace("'widget ", "'widget edit_widget ", $html);
+
+							$html .= "<a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_class."' class='edit_widget'><i class='fa fa-wrench' title='".__("Edit Widget", 'lang_wls')."'></i></a>";
+
+							break 2;
+						}
+					}
+				}
+			}
+		}
+
+		return $html;
 	}
 }

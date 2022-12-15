@@ -19,6 +19,38 @@ $arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array(
 
 $out = "";
 
+if(IS_EDITOR)
+{
+	$out .= ".widget.edit_widget:hover
+	{
+		position: relative;
+	}
+
+		.widget.edit_widget .edit_widget
+		{
+			display: none;
+		}
+
+		.widget.edit_widget:hover .edit_widget
+		{
+			background: #000;
+			border-radius: .3rem;
+			color: #fff;
+			display: block;
+			font-size: 2rem;
+			opacity: .2;
+			padding: .4rem .8rem;
+			position: absolute;
+			left: 2rem;
+			z-index: 1000;
+		}
+
+			.widget.edit_widget .edit_widget:hover
+			{
+				opacity: .7;
+			}";
+}
+
 foreach($arr_widget_logic_state as $key => $value)
 {
 	switch($value)
