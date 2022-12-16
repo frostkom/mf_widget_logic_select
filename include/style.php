@@ -21,17 +21,17 @@ $out = "";
 
 if(IS_EDITOR)
 {
-	$out .= ".widget.edit_widget:hover
+	$out .= ".widget.widget_has_edit:hover
 	{
 		position: relative;
 	}
 
-		.widget.edit_widget .edit_widget
+		.widget.widget_has_edit .edit_widget
 		{
 			display: none;
 		}
 
-		.widget.edit_widget:hover .edit_widget
+		.widget.widget_has_edit:hover .edit_widget
 		{
 			background: #000;
 			border-radius: .3rem;
@@ -42,10 +42,11 @@ if(IS_EDITOR)
 			padding: .4rem .8rem;
 			position: absolute;
 			left: 2rem;
+			top: 1rem;
 			z-index: 1000;
 		}
 
-			.widget.edit_widget .edit_widget:hover
+			.widget.widget_has_edit .edit_widget:hover
 			{
 				opacity: .7;
 			}";

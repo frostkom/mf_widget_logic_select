@@ -755,7 +755,7 @@ class mf_widget_logic_select
 					{
 						if(strpos($html, $widget_class) !== false)
 						{
-							$html = str_replace("'widget ", "'widget edit_widget ", $html);
+							$html = str_replace("'widget ", "'widget widget_has_edit ", $html);
 
 							$html .= "<a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_class."' class='edit_widget'><i class='fa fa-wrench' title='".__("Edit Widget", 'lang_wls')."'></i></a>";
 
