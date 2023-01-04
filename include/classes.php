@@ -171,12 +171,19 @@ class mf_widget_logic_select
 
 		switch($pagenow)
 		{
+			case 'post.php':
+				$plugin_include_url = plugin_dir_url(__FILE__);
+				$plugin_version = get_plugin_version(__FILE__);
+
+				mf_enqueue_style('style_wls', $plugin_include_url."style_post_wp.css", $plugin_version);
+			break;
+
 			case 'widgets.php':
 				$plugin_include_url = plugin_dir_url(__FILE__);
 				$plugin_version = get_plugin_version(__FILE__);
 
-				mf_enqueue_style('style_wls', $plugin_include_url."style_wp.css", $plugin_version);
-				mf_enqueue_script('script_wls', $plugin_include_url."script_wp.js", array(
+				mf_enqueue_style('style_widgets_wls', $plugin_include_url."style_widgets_wp.css", $plugin_version);
+				mf_enqueue_script('script_widgets_wls', $plugin_include_url."script_widgets_wp.js", array(
 					'choose_here_text' => __("Filter Widgets Here", 'lang_wls'),
 				), $plugin_version);
 			break;
@@ -372,7 +379,7 @@ class mf_widget_logic_select
 
 	function meta_page_widgets()
 	{
-		global $wp_registered_widgets, $post;
+		global $wp_registered_widgets, $post, $obj_theme_core;
 
 		$out = "";
 
@@ -382,22 +389,58 @@ class mf_widget_logic_select
 		{
 			$post_type = get_post_type($post_id);
 
+			if(!isset($obj_theme_core))
+			{
+				$obj_theme_core = new mf_theme_core();
+			}
+
+			$theme_dir_name = $obj_theme_core->get_theme_dir_name();
+
 			$arr_output = array();
+
+			$arr_output['widget_window_side'] = array();
+			$arr_output['widget_slide'] = array();
+			$arr_output['widget_pre_header'] = array();
+			$arr_output['widget_header'] = array();
+			$arr_output['widget_after_header'] = array();
+
+			switch($theme_dir_name)
+			{
+				case 'mf_theme':
+					$arr_output['widget_front'] = array();
+				break;
+
+				case 'mf_parallax':
+					$arr_output['widget_pre_content'] = array();
+				break;
+			}
+
+			$arr_output['widget_sidebar_left'] = array();
+			$arr_output['widget_sidebar'] = array();
+			$arr_output['widget_after_heading'] = array();
+			$arr_output['widget_after_content'] = array();
+			$arr_output['widget_below_content'] = array();
+			$arr_output['widget_pre_footer'] = array();
+			$arr_output['widget_footer'] = array();
+
 			$arr_sidebars = wp_get_sidebars_widgets();
 			$arr_sidebar_names = get_sidebars_for_select();
 			$arr_widget_logic = get_option('widget_logic');
 
-			foreach($arr_sidebars as $sidebar_key => $sidebar)
+			foreach($arr_sidebars as $sidebar_key => $arr_sidebars)
 			{
 				if($sidebar_key != 'wp_inactive_widgets')
 				{
-					$arr_output[$sidebar_key] = array();
-
-					if(is_array($sidebar))
+					if(!isset($arr_output[$sidebar_key]))
 					{
-						foreach($sidebar as $widget)
+						$arr_output[$sidebar_key] = array();
+					}
+
+					if(is_array($arr_sidebars))
+					{
+						foreach($arr_sidebars as $widget_handle)
 						{
-							$arr_widget_parts = explode('-', $widget);
+							$arr_widget_parts = explode('-', $widget_handle);
 
 							$count_temp = (count($arr_widget_parts) - 1);
 
@@ -410,11 +453,11 @@ class mf_widget_logic_select
 
 							$widget_id = $arr_widget_parts[$count_temp];
 
-							if(isset($arr_widget_logic[$widget]) && $arr_widget_logic[$widget] != '')
+							if(isset($arr_widget_logic[$widget_handle]) && $arr_widget_logic[$widget_handle] != '')
 							{
 								$show_on_page = false;
 
-								$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget]);
+								$arr_page_widget_logic = explode('||', $arr_widget_logic[$widget_handle]);
 
 								foreach($arr_page_widget_logic as $page_widget_logic)
 								{
@@ -546,9 +589,9 @@ class mf_widget_logic_select
 
 								if($show_on_page == true)
 								{
-									$widget_name = $wp_registered_widgets[$widget]['name']; //wp_widget_description($widget)
+									$widget_name = $wp_registered_widgets[$widget_handle]['name']; //wp_widget_description($widget_handle)
 
-									$arr_output[$sidebar_key][$widget] = $widget_name;
+									$arr_output[$sidebar_key][$widget_handle] = $widget_name;
 								}
 							}
 						}
@@ -559,30 +602,39 @@ class mf_widget_logic_select
 						do_log("Something went wrong with sidebar (".var_export($sidebar, true).", ".var_export($arr_sidebars, true).")");
 					}
 
-					if(count($arr_output[$sidebar_key]) == 0)
+					/*if(count($arr_output[$sidebar_key]) == 0)
 					{
 						unset($arr_output[$sidebar_key]);
-					}
+					}*/
 				}
 			}
 
 			if(count($arr_output) > 0)
 			{
-				$out .= "<ul class='meta_list'>";
+				$out .= "<div class='page_widget_list'>";
 
-					foreach($arr_output as $sidebar_key => $sidebar)
+					foreach($arr_output as $sidebar_key => $arr_widgets)
 					{
+						$out .= "<div class='".$sidebar_key."'>
+							<h3><a href='".admin_url("widgets.php#".$sidebar_key)."'>".$arr_sidebar_names[$sidebar_key]."</a> <i class='fa fa-plus blue'></i></h3>";
+
+							if(isset($arr_sidebar_names[$sidebar_key]) && is_array($arr_widgets) && count($arr_widgets) > 0)
+							{
+								$out .= "<ul>";
+
+									foreach($arr_widgets as $widget_key => $widget_name)
+									{
+										$out .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget_name."</a> <i class='fa fa-wrench blue'></i></li>";
+									}
+
+								$out .= "</ul>";
+							}
+
+						$out .= "</div>";
+
 						if(isset($arr_sidebar_names[$sidebar_key]))
 						{
-							$out .= "<li>".$arr_sidebar_names[$sidebar_key]."</li>
-							<ul>";
-
-								foreach($sidebar as $widget_key => $widget)
-								{
-									$out .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget."</a></li>";
-								}
-
-							$out .= "</ul>";
+							// Do nothing
 						}
 
 						else if(!in_array($sidebar_key, array('sidebar-primary', 'sidebar-content-intro')))
@@ -591,7 +643,7 @@ class mf_widget_logic_select
 						}
 					}
 
-				$out .= "</ul>";
+				$out .= "</div>";
 			}
 		}
 

@@ -1,0 +1,114 @@
+@media all
+{
+	.page_widget_list
+	{
+		box-sizing: border-box;
+		height: 100%;
+		overflow: hidden;
+	}
+
+		.page_widget_list div
+		{
+			border: .1em solid #ccc;
+			border-radius: .5em;
+			box-sizing: border-box;
+			margin: 1%;
+			padding: 1%;
+		}
+
+			.page_widget_list .widget_window_side
+			{
+				float: right;
+				width: 19%;
+				height: 98%;
+			}
+
+			.page_widget_list .widget_slide
+			{
+				float: right;
+				width: 19%;
+				height: 98%;
+			}
+
+			.page_widget_list .widget_pre_header
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_header
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_after_header
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_front
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_pre_content
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_sidebar_left
+			{
+				float: left;
+				width: 17%;
+			}
+
+			.page_widget_list .widget_sidebar
+			{
+				float: right;
+				width: 17%;
+			}
+
+			.page_widget_list .widget_after_heading
+			{
+				float: left;
+				width: 17%;
+			}
+
+			.page_widget_list .widget_after_content
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_below_content
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_pre_footer
+			{
+				float: left;
+				width: 56%;
+			}
+
+			.page_widget_list .widget_footer
+			{
+				float: left;
+				width: 56%;
+			}
+
+				.page_widget_list h3
+				{
+					margin: 0;
+				}
+
+				.page_widget_list ul
+				{
+					margin: .5em 0 0;
+				}
+}

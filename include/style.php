@@ -23,6 +23,7 @@ if(IS_EDITOR)
 {
 	$out .= ".widget.widget_has_edit:hover
 	{
+		overflow: hidden;
 		position: relative;
 	}
 

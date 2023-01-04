@@ -144,7 +144,7 @@ jQuery(function($)
 
 		if(select_count == 0)
 		{
-			$("#widgets-right").prepend("<select><option value=''>-- " + script_wls.choose_here_text + " --</option>" + dom_obj_page.html() + "</select>");
+			$("#widgets-right").prepend("<select><option value=''>-- " + script_widgets_wls.choose_here_text + " --</option>" + dom_obj_page.html() + "</select>");
 		}
 
 		select_count++;
