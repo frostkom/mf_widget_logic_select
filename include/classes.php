@@ -716,7 +716,7 @@ class mf_widget_logic_select
 		$arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
 		$arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
 
-		if(count($arr_widget_logic_state) > 0 || count($arr_widget_logic_screens) > 0)
+		if(IS_EDITOR || count($arr_widget_logic_state) > 0 || count($arr_widget_logic_screens) > 0)
 		{
 			$plugin_include_url = plugin_dir_url(__FILE__);
 			$plugin_version = get_plugin_version(__FILE__);
@@ -808,6 +808,7 @@ class mf_widget_logic_select
 						if(strpos($html, $widget_class) !== false)
 						{
 							$html = str_replace("'widget ", "'widget widget_has_edit ", $html);
+							$html = str_replace(" widget ", " widget widget_has_edit ", $html);
 
 							$html .= "<a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_class."' class='edit_widget'><i class='fa fa-wrench' title='".__("Edit Widget", 'lang_wls')."'></i></a>";
 
