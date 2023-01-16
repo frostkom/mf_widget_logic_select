@@ -453,6 +453,8 @@ class mf_widget_logic_select
 
 							$widget_id = $arr_widget_parts[$count_temp];
 
+							$show_on_page = true;
+
 							if(isset($arr_widget_logic[$widget_handle]) && $arr_widget_logic[$widget_handle] != '')
 							{
 								$show_on_page = false;
@@ -586,13 +588,13 @@ class mf_widget_logic_select
 										}
 									}
 								}
+							}
 
-								if($show_on_page == true)
-								{
-									$widget_name = $wp_registered_widgets[$widget_handle]['name']; //wp_widget_description($widget_handle)
+							if($show_on_page == true)
+							{
+								$widget_name = $wp_registered_widgets[$widget_handle]['name']; //wp_widget_description($widget_handle)
 
-									$arr_output[$sidebar_key][$widget_handle] = $widget_name;
-								}
+								$arr_output[$sidebar_key][$widget_handle] = $widget_name;
 							}
 						}
 					}

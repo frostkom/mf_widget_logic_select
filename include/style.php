@@ -23,7 +23,7 @@ if(IS_EDITOR)
 {
 	$out .= ".widget.widget_has_edit:hover
 	{
-		overflow: hidden;
+		/*overflow: hidden;*/ /* Does not work properly when menu has submenus */
 		position: relative;
 	}
 
