@@ -617,10 +617,12 @@ class mf_widget_logic_select
 
 					foreach($arr_output as $sidebar_key => $arr_widgets)
 					{
-						$out .= "<div class='".$sidebar_key."'>
-							<h3><a href='".admin_url("widgets.php#".$sidebar_key)."'>".$arr_sidebar_names[$sidebar_key]."</a> <i class='fa fa-plus blue'></i></h3>";
+						$has_children = (isset($arr_sidebar_names[$sidebar_key]) && is_array($arr_widgets) && count($arr_widgets) > 0);
 
-							if(isset($arr_sidebar_names[$sidebar_key]) && is_array($arr_widgets) && count($arr_widgets) > 0)
+						$out .= "<div class='".$sidebar_key."'>
+							<h3><a href='".admin_url("widgets.php#".$sidebar_key)."'>".$arr_sidebar_names[$sidebar_key]."</a>".($has_children ? " (".count($arr_widgets).")" : "")." <i class='fa fa-plus blue'></i></h3>";
+
+							if($has_children)
 							{
 								$out .= "<ul>";
 

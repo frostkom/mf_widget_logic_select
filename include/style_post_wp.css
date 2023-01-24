@@ -109,6 +109,12 @@
 
 				.page_widget_list ul
 				{
+					display: none;
 					margin: .5em 0 0;
 				}
+
+					.page_widget_list > div:hover ul
+					{
+						display: block;
+					}
 }
