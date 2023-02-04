@@ -57,7 +57,7 @@ class mf_widget_logic_select
 										foreach($arr_page_widget_logic as $page_widget_logic)
 										{
 											$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
-											$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
+											$singular_type = get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false);
 
 											if($page_id > 0)
 											{
@@ -71,6 +71,8 @@ class mf_widget_logic_select
 
 											else if($singular_type != '')
 											{
+												$singular_type = trim($singular_type, '\"');
+
 												$arr_data = array();
 												get_post_children(array('add_choose_here' => false, 'post_type' => $singular_type, 'limit' => 1), $arr_data);
 
@@ -422,6 +424,7 @@ class mf_widget_logic_select
 			$arr_output['widget_below_content'] = array();
 			$arr_output['widget_pre_footer'] = array();
 			$arr_output['widget_footer'] = array();
+			$arr_output['widget_window_bottom'] = array();
 
 			$arr_sidebars = wp_get_sidebars_widgets();
 			$arr_sidebar_names = get_sidebars_for_select();
@@ -466,8 +469,8 @@ class mf_widget_logic_select
 									$page_widget_logic = trim($page_widget_logic);
 
 									$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
-									$singular_type = trim(get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false), '\"');
-									$tax_type = trim(get_match("/is_tax\((.*?)\)/is", $page_widget_logic, false), '\"');
+									$singular_type = get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false);
+									$tax_type = get_match("/is_tax\((.*?)\)/is", $page_widget_logic, false);
 
 									if($page_id > 0)
 									{
@@ -479,6 +482,8 @@ class mf_widget_logic_select
 
 									else if($singular_type != '')
 									{
+										$singular_type = trim($singular_type, '\"');
+
 										if($singular_type == $post_type)
 										{
 											$show_on_page = true;
@@ -487,6 +492,8 @@ class mf_widget_logic_select
 
 									else if($tax_type != '')
 									{
+										$tax_type = trim($tax_type, '\"');
+
 										/*$taxonomy = get_object_taxonomies($post_type);
 
 										$post_tax = var_export($taxonomy, true);
@@ -611,43 +618,62 @@ class mf_widget_logic_select
 				}
 			}
 
+			$out_temp = "";
+
 			if(count($arr_output) > 0)
 			{
-				$out .= "<div class='page_widget_list'>";
+				$arr_sidebars_to_ignore = array('sidebar-primary', 'sidebar-content-intro');
 
-					foreach($arr_output as $sidebar_key => $arr_widgets)
+				foreach($arr_output as $sidebar_key => $arr_widgets)
+				{
+					if(isset($arr_sidebar_names[$sidebar_key]))
 					{
-						$has_children = (isset($arr_sidebar_names[$sidebar_key]) && is_array($arr_widgets) && count($arr_widgets) > 0);
+						$count_children = (is_array($arr_widgets) ? count($arr_widgets) : 0);
 
-						$out .= "<div class='".$sidebar_key."'>
-							<h3><a href='".admin_url("widgets.php#".$sidebar_key)."'>".$arr_sidebar_names[$sidebar_key]."</a>".($has_children ? " (".count($arr_widgets).")" : "")." <i class='fa fa-plus blue'></i></h3>";
+						$out_temp .= "<div class='".$sidebar_key."'>
+							<h3>"
+								.$arr_sidebar_names[$sidebar_key];
 
-							if($has_children)
+								if($count_children > 0)
+								{
+									$out_temp .= " (".$count_children.")";
+								}
+
+								$out_temp .= " <a href='".admin_url("widgets.php#".$sidebar_key)."'><i class='fa fa-plus blue'></i></a>
+							</h3>";
+
+							if($count_children > 0)
 							{
-								$out .= "<ul>";
+								$out_temp .= "<ul>";
 
 									foreach($arr_widgets as $widget_key => $widget_name)
 									{
-										$out .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget_name."</a> <i class='fa fa-wrench blue'></i></li>";
+										$out_temp .= "<li><a href='".admin_url("widgets.php#".$sidebar_key)."&".$widget_key."'>".$widget_name."</a> <i class='fa fa-wrench blue'></i></li>";
 									}
 
-								$out .= "</ul>";
+								$out_temp .= "</ul>";
 							}
 
-						$out .= "</div>";
-
-						if(isset($arr_sidebar_names[$sidebar_key]))
-						{
-							// Do nothing
-						}
-
-						else if(!in_array($sidebar_key, array('sidebar-primary', 'sidebar-content-intro')))
-						{
-							do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")");
-						}
+						$out_temp .= "</div>";
 					}
 
-				$out .= "</div>";
+					else if(!in_array($sidebar_key, $arr_sidebars_to_ignore))
+					{
+						do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")");
+					}
+				}
+			}
+
+			if($out_temp != '')
+			{
+				$out .= "<div class='page_widget_list'>"
+					.$out_temp
+				."</div>";
+			}
+
+			else
+			{
+				$out .= "<a href='".admin_url("widgets.php")."'>".__("There are no widgets on this page yet. Add one by clicking here", 'lang_wls')."</a>";
 			}
 		}
 

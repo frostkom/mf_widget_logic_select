@@ -16,6 +16,13 @@
 			padding: 1%;
 		}
 
+			/*.page_widget_list .widget_window_bottom
+			{
+				float: right;
+				width: 19%;
+				height: 98%;
+			}*/
+
 			.page_widget_list .widget_window_side
 			{
 				float: right;

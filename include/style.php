@@ -17,7 +17,11 @@ else
 $arr_widget_logic_state = get_option_or_default('widget_logic_state', array());
 $arr_widget_logic_screens = get_option_or_default('widget_logic_screens', array());
 
-$out = "";
+$out = "/* Has to be here to hide when cached */
+.widget.widget_has_edit .edit_widget
+{
+	display: none !important;
+}";
 
 if(IS_EDITOR)
 {
@@ -27,17 +31,12 @@ if(IS_EDITOR)
 		position: relative;
 	}
 
-		.widget.widget_has_edit .edit_widget
-		{
-			display: none;
-		}
-
 		.widget.widget_has_edit:hover .edit_widget
 		{
 			background: #000;
 			border-radius: .3rem;
 			color: #fff;
-			display: block;
+			display: block !important;
 			font-size: 2rem;
 			opacity: .2;
 			padding: .4rem .8rem;
@@ -81,19 +80,19 @@ foreach($arr_widget_logic_screens as $key => $arr_value)
 
 		foreach($arr_value as $value)
 		{
-			if($value == 'mobile')
+			switch($value)
 			{
-				$display_on_mobile = true;
-			}
+				case 'mobile':
+					$display_on_mobile = true;
+				break;
 
-			if($value == 'tablet')
-			{
-				$display_on_tablet = true;
-			}
+				case 'tablet':
+					$display_on_tablet = true;
+				break;
 
-			if($value == 'desktop')
-			{
-				$display_on_desktop = true;
+				case 'desktop':
+					$display_on_desktop = true;
+				break;
 			}
 		}
 
