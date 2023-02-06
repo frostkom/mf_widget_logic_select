@@ -825,7 +825,7 @@ class mf_widget_logic_select
 
 	function filter_before_widget($html)
 	{
-		if(IS_EDITOR)
+		if(IS_EDITOR && get_option('setting_theme_core_enable_edit_mode') == 'yes')
 		{
 			$arr_sidebars = wp_get_sidebars_widgets();
 
