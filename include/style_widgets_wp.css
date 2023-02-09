@@ -1,23 +1,23 @@
 @media all
 {
-	.wrap #widgets-right .widget.filter_hide
+	#wpwrap #widgets-right .widget.filter_hide
 	{
 		opacity: .5;
 	}
 
-	.wrap .sidebar-name h2
+	#wpwrap .sidebar-name h2
 	{
 		position: relative;
 	}
 
-		.wrap .sidebar-name h2 .spinner
+		#wpwrap .sidebar-name h2 .spinner
 		{
 			position: absolute;
 			right: 2em;
 			top: 1em;
 		}
 
-	.wrap .sidebar-name h2 em, .wrap .widget-title h3 em
+	#wpwrap .sidebar-name h2 em, #wpwrap .widget-title h3 em
 	{
 		display: inline-block;
 		font-weight: normal;
