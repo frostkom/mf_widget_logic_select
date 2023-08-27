@@ -135,6 +135,8 @@ jQuery(function($)
 		}
 	}
 
+	/* Filter */
+	/*#####################*/
 	var select_count = 0;
 
 	$(".widget_logic_select").each(function()
@@ -144,7 +146,7 @@ jQuery(function($)
 
 		if(select_count == 0)
 		{
-			$("#widgets-right").prepend("<select><option value=''>-- " + script_widgets_wls.choose_here_text + " --</option>" + dom_obj_page.html() + "</select>");
+			$("#widgets-right").prepend("<select id='widgets_right_filter'><option value=''>-- " + script_widgets_wls.choose_here_text + " --</option>" + dom_obj_page.html() + "</select>");
 		}
 
 		select_count++;
@@ -154,7 +156,7 @@ jQuery(function($)
 		update_widget_heading(dom_container, false);
 	});
 
-	$(document).on('change', "#widgets-right > select", function()
+	$(document).on('change', "#widgets_right_filter", function()
 	{
 		var dom_widgets_obj = $("#widgets-right").find(".widget"),
 			dom_value = $(this).val();
@@ -175,6 +177,7 @@ jQuery(function($)
 			dom_widgets_obj.removeClass('filter_hide');
 		}
 	});
+	/*#####################*/
 
 	$(document).on('click', "#widgets-right .widgets-holder-wrap .widget:not(.open)", function()
 	{
@@ -200,7 +203,7 @@ jQuery(function($)
 			}
 		}
 
-		dom_obj_page.parent(".form_select").siblings(".form_textfield").children("input.widget_logic").val(select_string).removeClass('hide');
+		dom_obj_page.parent(".form_select").siblings(".form_textfield").children("input.mf_form_field").val(select_string).removeClass('hide');
 
 		update_widget_heading(dom_container, true);
 	});
