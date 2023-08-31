@@ -2,9 +2,11 @@
 
 class mf_widget_logic_select
 {
+	var $meta_prefix = 'mf_wls_';
+
 	function __construct()
 	{
-		$this->meta_prefix = 'mf_wls_';
+		//$this->meta_prefix = 'mf_wls_';
 	}
 
 	function get_widget_search($search_for)
@@ -466,114 +468,85 @@ class mf_widget_logic_select
 
 								foreach($arr_page_widget_logic as $page_widget_logic)
 								{
-									$page_widget_logic = trim($page_widget_logic);
-
-									$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
-									$singular_type = get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false);
-									$tax_type = get_match("/is_tax\((.*?)\)/is", $page_widget_logic, false);
-
-									if($page_id > 0)
+									if(isset($page_widget_logic) && $page_widget_logic != '')
 									{
-										if($page_id == $post_id)
+										$page_widget_logic = trim($page_widget_logic);
+
+										$page_id = get_match("/is_page\((.*?)\)/is", $page_widget_logic, false);
+										$singular_type = get_match("/is_singular\((.*?)\)/is", $page_widget_logic, false);
+										$tax_type = get_match("/is_tax\((.*?)\)/is", $page_widget_logic, false);
+
+										if($page_id > 0)
 										{
-											$show_on_page = true;
-										}
-									}
-
-									else if($singular_type != '')
-									{
-										$singular_type = trim($singular_type, '\"');
-
-										if($singular_type == $post_type)
-										{
-											$show_on_page = true;
-										}
-									}
-
-									else if($tax_type != '')
-									{
-										$tax_type = trim($tax_type, '\"');
-
-										/*$taxonomy = get_object_taxonomies($post_type);
-
-										$post_tax = var_export($taxonomy, true);
-
-										$terms = get_the_terms($post_id, $taxonomy);
-
-										if(!empty($terms))
-										{
-											foreach($terms as $term)
+											if($page_id == $post_id)
 											{
-												$post_tax .= " || ".var_export($term, true);
+												$show_on_page = true;
 											}
 										}
 
-										do_log("Checking '".$page_widget_logic."' -> ".$tax_type." -> ".$post_tax);*/
-
-										/*if($tax_type == $post_tax)
+										else if($singular_type != '')
 										{
-											$show_on_page = true;
-										}*/
-									}
+											$singular_type = trim($singular_type, '\"');
 
-									else
-									{
-										switch($page_widget_logic)
+											if($singular_type == $post_type)
+											{
+												$show_on_page = true;
+											}
+										}
+
+										else if($tax_type != '')
 										{
-											case 'is_front_page()':
-												$page_on_front = get_option('page_on_front');
+											$tax_type = trim($tax_type, '\"');
 
-												if($post_id == $page_on_front)
+											/*$taxonomy = get_object_taxonomies($post_type);
+
+											$post_tax = var_export($taxonomy, true);
+
+											$terms = get_the_terms($post_id, $taxonomy);
+
+											if(!empty($terms))
+											{
+												foreach($terms as $term)
 												{
-													$show_on_page = true;
+													$post_tax .= " || ".var_export($term, true);
 												}
-											break;
+											}
 
-											case 'is_home()':
-												// Old way...
-												/*if($post_id == get_option('page_on_front'))
-												{
-													$show_on_page = true;
-												}*/
+											do_log("Checking '".$page_widget_logic."' -> ".$tax_type." -> ".$post_tax);*/
 
-												$show_on_front = get_option('show_on_front');
-												$page_on_front = get_option('page_on_front');
-												$page_for_posts = get_option('page_for_posts');
+											/*if($tax_type == $post_tax)
+											{
+												$show_on_page = true;
+											}*/
+										}
 
-												if(($show_on_front == 'page' || $page_on_front > 0) && $page_for_posts > 0)
-												{
-													if($post_id == $page_for_posts)
-													{
-														$show_on_page = true;
-													}
-												}
+										else
+										{
+											switch($page_widget_logic)
+											{
+												case 'is_front_page()':
+													$page_on_front = get_option('page_on_front');
 
-												else
-												{
 													if($post_id == $page_on_front)
 													{
 														$show_on_page = true;
 													}
-												}
-											break;
+												break;
 
-											case 'is_category()':
-												if(is_category())
-												{
-													$show_on_page = true;
-												}
-											break;
-
-											default:
-												$log_message = "Widget Logic Missing 1: '".$page_widget_logic."' (#".$post_id.")";
-
-												if(substr($page_widget_logic, 0, 12) == "is_category(")
-												{
-													$category_id = (int)str_replace(array("is_category(", ")"), "", $page_widget_logic);
-
-													if($category_id > 0)
+												case 'is_home()':
+													// Old way...
+													/*if($post_id == get_option('page_on_front'))
 													{
-														if(is_category($category_id))
+														$show_on_page = true;
+													}*/
+
+													$show_on_front = get_option('show_on_front');
+													$page_on_front = get_option('page_on_front');
+													$page_for_posts = get_option('page_for_posts');
+
+													if(($show_on_front == 'page' || $page_on_front > 0) && $page_for_posts > 0)
+													{
+														if($post_id == $page_for_posts)
 														{
 															$show_on_page = true;
 														}
@@ -581,17 +554,49 @@ class mf_widget_logic_select
 
 													else
 													{
-														do_log("Widget Logic Category Error: '".$page_widget_logic."' -> ".$category_id." (#".$post_id.")");
+														if($post_id == $page_on_front)
+														{
+															$show_on_page = true;
+														}
+													}
+												break;
+
+												case 'is_category()':
+													if(is_category())
+													{
+														$show_on_page = true;
+													}
+												break;
+
+												default:
+													$log_message = "Widget Logic Missing 1: '".$page_widget_logic."' (#".$post_id.")";
+
+													if(substr($page_widget_logic, 0, 12) == "is_category(")
+													{
+														$category_id = (int)str_replace(array("is_category(", ")"), "", $page_widget_logic);
+
+														if($category_id > 0)
+														{
+															if(is_category($category_id))
+															{
+																$show_on_page = true;
+															}
+														}
+
+														else
+														{
+															do_log("Widget Logic Category Error: '".$page_widget_logic."' -> ".$category_id." (#".$post_id.")");
+														}
+
+														do_log($log_message, 'trash');
 													}
 
-													do_log($log_message, 'trash');
-												}
-
-												else
-												{
-													do_log($log_message);
-												}
-											break;
+													else
+													{
+														do_log($log_message);
+													}
+												break;
+											}
 										}
 									}
 								}
