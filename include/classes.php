@@ -4,10 +4,7 @@ class mf_widget_logic_select
 {
 	var $meta_prefix = 'mf_wls_';
 
-	function __construct()
-	{
-		//$this->meta_prefix = 'mf_wls_';
-	}
+	function __construct(){}
 
 	function get_widget_search($search_for)
 	{
@@ -664,7 +661,8 @@ class mf_widget_logic_select
 
 					else if(!in_array($sidebar_key, $arr_sidebars_to_ignore))
 					{
-						do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")");
+						// Most likely due to change of theme which doesn't have the same widget areas
+						//do_log("The Widget Area does not exist (".$sidebar_key.", ".var_export($arr_sidebar_names, true).")");
 					}
 				}
 			}
