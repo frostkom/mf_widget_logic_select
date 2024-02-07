@@ -685,27 +685,30 @@ class mf_widget_logic_select
 
 	function rwmb_meta_boxes($meta_boxes)
 	{
-		global $obj_base;
-
-		if(!isset($obj_base))
+		if(apply_filters('is_theme_active', false))
 		{
-			$obj_base = new mf_base();
-		}
+			global $obj_base;
 
-		$meta_boxes[] = array(
-			'id' => $this->meta_prefix.'widgets',
-			'title' => __("Widgets", 'lang_wls'),
-			'post_types' => $obj_base->get_post_types_for_metabox(),
-			'context' => 'normal',
-			'priority' => 'low',
-			'fields' => array(
-				array(
-					'id' => $this->meta_prefix.'widgets',
-					'type' => 'custom_html',
-					'callback' => array($this, 'meta_page_widgets'),
-				),
-			)
-		);
+			if(!isset($obj_base))
+			{
+				$obj_base = new mf_base();
+			}
+
+			$meta_boxes[] = array(
+				'id' => $this->meta_prefix.'widgets',
+				'title' => __("Widgets", 'lang_wls'),
+				'post_types' => $obj_base->get_post_types_for_metabox(),
+				'context' => 'normal',
+				'priority' => 'low',
+				'fields' => array(
+					array(
+						'id' => $this->meta_prefix.'widgets',
+						'type' => 'custom_html',
+						'callback' => array($this, 'meta_page_widgets'),
+					),
+				)
+			);
+		}
 
 		return $meta_boxes;
 	}
